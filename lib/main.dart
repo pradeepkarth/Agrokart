@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myapp/presentation/auth/auth_screen.dart';
+import 'package:myapp/features/auth/presentation/screens/auth_screen.dart';
 
 import 'package:myapp/core/app_router.dart';
 void main() async {

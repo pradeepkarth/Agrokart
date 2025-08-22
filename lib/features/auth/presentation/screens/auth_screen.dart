@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/presentation/auth/login_form.dart';
-import 'package:myapp/presentation/auth/registration_form.dart';
-import 'package:myapp/presentation/auth/role_selection_chips.dart';
-import 'package:myapp/core/constants/auth_constants.dart';
-import 'package:myapp/domain/services/auth_service.dart';
+import 'package:myapp/features/auth/presentation/screens/login_form.dart';
+import 'package:myapp/features/auth/presentation/screens/registration_form.dart';
+import 'package:myapp/features/auth/presentation/widgets/role_selection_chips.dart';
+import 'package:myapp/core/constants/app_constants.dart';
+import 'package:myapp/features/auth/data/repositories/auth_repository.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -36,14 +36,14 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Future<void> _authenticate() async {
     if (_isLogin) {
-      await AuthService.login(
+      await AuthRepository().login(
         email: _emailController.text,
         password: _passwordController.text,
         role: _selectedRole,
         context: context,
       );
     } else {
-      await AuthService.register(
+      await AuthRepository().register(
         email: _emailController.text,
         password: _passwordController.text,
         confirmPassword: _confirmPasswordController.text,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/auth_constants.dart';
 
-class AuthService {
-  static Future<void> login({
+class AuthRepository {
+  Future<void> login({
     required String email,
     required String password,
     required String role,
@@ -16,7 +15,7 @@ class AuthService {
     // TODO: Navigate to appropriate dashboard based on role
   }
 
-  static Future<void> register({
+  Future<void> register({
     required String email,
     required String password,
     required String confirmPassword,

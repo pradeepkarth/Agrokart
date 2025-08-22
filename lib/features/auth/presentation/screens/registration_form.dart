@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/core/constants/auth_constants.dart';
+import 'package:myapp/core/constants/app_constants.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({
