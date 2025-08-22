@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/core/constants/auth_constants.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({
@@ -26,37 +27,38 @@ class RegistrationForm extends StatelessWidget {
         TextFormField(
           controller: emailController,
           decoration: const InputDecoration(
-            labelText: 'Email',
+            labelText: AppStrings.emailLabel,
           ),
           keyboardType: TextInputType.emailAddress,
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: AppDimensions.min3XSpacing),
         TextFormField(
           controller: passwordController,
           decoration: const InputDecoration(
-            labelText: 'Password',
+            labelText: AppStrings.passwordLabel,
           ),
           obscureText: true,
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: AppDimensions.min3XSpacing),
         TextFormField(
           controller: confirmPasswordController,
           decoration: const InputDecoration(
-            labelText: 'Confirm Password',
+            labelText: AppStrings.confirmPasswordLabel,
           ),
           obscureText: true,
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: AppDimensions.min3XSpacing),
         TextFormField(
           controller: phoneController,
           decoration: const InputDecoration(
-            labelText: 'Phone Number (Optional)',
+            labelText: AppStrings.phoneLabel,
           ),
           keyboardType: TextInputType.phone,
         ),
-        const SizedBox(height: 24.0),
-        ElevatedButton(onPressed: onRegister, child: const Text('Register')),
+        const SizedBox(height: AppDimensions.normal3XSpacing),
+        ElevatedButton(onPressed: onRegister, child: const Text(AppStrings.registerButton)),
       ],
     );
   }
 }
+

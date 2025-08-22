@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/presentation/auth/login_form.dart';
 import 'package:myapp/presentation/auth/registration_form.dart';
 import 'package:myapp/presentation/auth/role_selection_chips.dart';
+import 'package:myapp/core/constants/auth_constants.dart';
+import 'package:myapp/domain/services/auth_service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
       TextEditingController();
 
   bool _isLogin = true;
-  String _selectedRole = 'Farmer'; // Default role
+  String _selectedRole = AppStrings.defaultRole;
 
   void _toggleForm() {
     setState(() {
@@ -32,23 +34,23 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  void _authenticate() {
+  Future<void> _authenticate() async {
     if (_isLogin) {
-      // TODO: Implement login logic
-      print('Login attempt with:');
-      print('Email: ${_emailController.text}');
-      print('Password: ${_passwordController.text}');
-      print('Role: $_selectedRole');
-      // TODO: Navigate to appropriate dashboard based on _selectedRole
+      await AuthService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+        role: _selectedRole,
+        context: context,
+      );
     } else {
-      // TODO: Implement registration logic
-      print('Registration attempt with:');
-      print('Email: ${_emailController.text}');
-      print('Password: ${_passwordController.text}');
-      print('Confirm Password: ${_confirmPasswordController.text}');
-      print('Phone: ${_phoneController.text}');
-      print('Role: $_selectedRole');
-      // TODO: Navigate to appropriate onboarding screen based on _selectedRole
+      await AuthService.register(
+        email: _emailController.text,
+        password: _passwordController.text,
+        confirmPassword: _confirmPasswordController.text,
+        phone: _phoneController.text,
+        role: _selectedRole,
+        context: context,
+      );
     }
   }
 
@@ -65,15 +67,14 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isLogin ? 'Login' : 'Register'),
+        title: Text(_isLogin ? AppStrings.loginTitle : AppStrings.registerTitle),
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(AppDimensions.largeSpacing),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Use LoginForm or RegistrationForm based on _isLogin
               if (_isLogin)
                 LoginForm(
                   emailController: _emailController,
@@ -90,10 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   onRegister: _authenticate,
                   onToggleToLogin: _toggleForm,
                 ),
-
-              const SizedBox(height: 24.0),
-
-              // Use RoleSelectionChips widget
+              const SizedBox(height: AppDimensions.normal3XSpacing),
               RoleSelectionChips(
                 selectedRole: _selectedRole,
                 onRoleSelected: _selectRole,

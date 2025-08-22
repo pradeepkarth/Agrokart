@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/core/constants/auth_constants.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
     Key? key,
     required this.onLogin,
     required this.onToggleToRegister,
- required this.emailController,
- required this.passwordController,
+    required this.emailController,
+    required this.passwordController,
   }) : super(key: key);
 
   final VoidCallback onLogin;
@@ -22,24 +23,25 @@ class LoginForm extends StatelessWidget {
         TextFormField(
           controller: emailController,
           decoration: const InputDecoration(
-            labelText: 'Email',
+            labelText: AppStrings.emailLabel,
           ),
           keyboardType: TextInputType.emailAddress,
         ),
-        const SizedBox(height: 12.0),
+        const SizedBox(height: AppDimensions.min3XSpacing),
         TextFormField(
           controller: passwordController,
           decoration: const InputDecoration(
-            labelText: 'Password',
+            labelText: AppStrings.passwordLabel,
           ),
           obscureText: true,
         ),
-        const SizedBox(height: 24.0),
+        const SizedBox(height: AppDimensions.normal3XSpacing),
         ElevatedButton(
           onPressed: onLogin,
-          child: const Text('Login'),
+          child: const Text(AppStrings.loginButton),
         ),
       ],
     );
   }
 }
+

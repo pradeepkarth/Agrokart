@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/core/constants/auth_constants.dart';
 
 class RoleSelectionChips extends StatelessWidget {
   const RoleSelectionChips({
@@ -15,30 +16,30 @@ class RoleSelectionChips extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Select your role:',
-          style: TextStyle(fontSize: 16.0),
+        Text(
+          AppStrings.roleLabel,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
-        const SizedBox(height: 8.0),
+        const SizedBox(height: AppDimensions.normalSpacing),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ChoiceChip(
-              label: const Text('Farmer'),
-              selected: selectedRole == 'Farmer',
+              label: const Text(AppStrings.farmerRole),
+              selected: selectedRole == AppStrings.farmerRole,
               onSelected: (selected) {
                 if (selected) {
-                  onRoleSelected('Farmer');
+                  onRoleSelected(AppStrings.farmerRole);
                 }
               },
             ),
-            const SizedBox(width: 16.0),
+            const SizedBox(width: AppDimensions.normal3XSpacing),
             ChoiceChip(
-              label: const Text('Buyer'),
-              selected: selectedRole == 'Buyer',
+              label: const Text(AppStrings.buyerRole),
+              selected: selectedRole == AppStrings.buyerRole,
               onSelected: (selected) {
                 if (selected) {
-                  onRoleSelected('Buyer');
+                  onRoleSelected(AppStrings.buyerRole);
                 }
               },
             ),
