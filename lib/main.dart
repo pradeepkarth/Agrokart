@@ -3,8 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:myapp/features/auth/presentation/screens/auth_screen.dart';
 
 import 'package:myapp/core/app_router.dart';
+
+import 'core/utils/locator.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   runApp(const MyApp());
 }
 

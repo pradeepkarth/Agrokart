@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../domain/repositories/auth_repository_interface.dart';
 
-class AuthRepository {
+class AuthRepository implements IAuthRepository {
+  @override
   Future<void> login({
     required String email,
     required String password,
     required String role,
-    required BuildContext context,
   }) async {
     // TODO: Implement login logic (API call, validation, etc.)
     debugPrint('Login attempt with:');
@@ -15,13 +16,13 @@ class AuthRepository {
     // TODO: Navigate to appropriate dashboard based on role
   }
 
+  @override
   Future<void> register({
     required String email,
     required String password,
     required String confirmPassword,
     required String phone,
     required String role,
-    required BuildContext context,
   }) async {
     // TODO: Implement registration logic (API call, validation, etc.)
     debugPrint('Registration attempt with:');
