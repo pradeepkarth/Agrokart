@@ -69,6 +69,21 @@ lib/
         widgets/
 ```
 
+## TODOs for Scaling & Maintainability
+
+- [ ] Create a base class for handling app update, network disconnection and connectivity changes
+- [ ] Implement a global error handler for uncaught exceptions and API errors
+- [ ] Introduce base Cubit/Bloc classes for common state management patterns
+- [ ] Add feature-level dependency injection modules for better modularity
+- [ ] Use sealed classes for domain models and error types
+- [ ] Add automated tests for use cases, Cubits, and repositories
+- [ ] Implement logging and analytics for user actions and errors
+- [ ] Document API contracts and data models for easier onboarding
+- [ ] Add support for localization and theming
+- [ ] Refactor for platform-specific abstractions (web, mobile, desktop)
+- [ ] Optimize for performance: lazy loading, caching, pagination
+- [ ] Regularly audit for SOLID, DRY, and KISS principle adherence
+
 ## References
 - [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [Bloc State Management](https://bloclibrary.dev/#/)
