@@ -85,7 +85,8 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager>
 
   /// Default AppBar, can be overridden or muted by returning null.
   @protected
-  PreferredSizeWidget? buildAppBar(BuildContext context) => AppBar(title: Text(AppStrings.appName), centerTitle: true);
+  PreferredSizeWidget? buildAppBar({String? appName}) =>
+      AppBar(title: Text(appName ?? AppStrings.appName), centerTitle: true);
 
   /// Enable FloatingActionButton. Child can override to enable.
   @protected
@@ -97,16 +98,20 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager>
 
   /// Default FloatingActionButton, only shown if enabled.
   @protected
-  Widget buildFAB(BuildContext context) => FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add));
+  Widget buildFAB({VoidCallback? onPressed, IconData? icon}) =>
+      FloatingActionButton(
+        onPressed: onPressed,
+        child: Icon(icon ?? Icons.info),
+      );
 
   /// Default BottomNavigationBar, only shown if enabled.
   @protected
-  Widget buildBottomBar(BuildContext context) => BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-      ],
-    );
+  Widget buildBottomBar() => BottomNavigationBar(
+    items: const [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+    ],
+  );
 
   /// Child must provide the Cubit to listen for error states.
   /// 
@@ -134,10 +139,10 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager>
       );
     }
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(),
       body: body,
-      floatingActionButton: enableFAB ? buildFAB(context) : null,
-      bottomNavigationBar: enableBottomBar ? buildBottomBar(context) : null,
+      floatingActionButton: enableFAB ? buildFAB() : null,
+      bottomNavigationBar: enableBottomBar ? buildBottomBar() : null,
     );
   }
 
