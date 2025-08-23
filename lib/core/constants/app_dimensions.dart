@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 class AppDimensions {
   static const double minSpacing = 4.0;
   static const double normalSpacing = 8.0;

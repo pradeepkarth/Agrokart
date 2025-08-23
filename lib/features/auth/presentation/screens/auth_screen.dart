@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/app/base_cubit.dart';
 import 'package:myapp/core/app/base_scaffold_manager.dart';
-import 'package:myapp/features/auth/presentation/widgets/login_form.dart';
-import 'package:myapp/features/auth/presentation/widgets/registration_form.dart';
-import 'package:myapp/features/auth/presentation/widgets/role_selection_chips.dart';
 import 'package:myapp/core/constants/app_constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/utils/locator.dart';
 import 'package:myapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myapp/features/auth/presentation/bloc/auth_ui_cubit.dart';
+import 'package:myapp/features/auth/presentation/widgets/login_form.dart';
+import 'package:myapp/features/auth/presentation/widgets/registration_form.dart';
+import 'package:myapp/features/auth/presentation/widgets/role_selection_chips.dart';
 
+/// The authentication screen for login and registration.
 class AuthScreen extends BaseScaffoldManager {
+  /// Creates an [AuthScreen] widget.
   const AuthScreen({super.key});
 
+  /// Creates the state for [AuthScreen].
   @override
   BaseScaffoldManagerState<AuthScreen> createState() => _AuthScreenState();
 }
@@ -23,7 +26,8 @@ class _AuthScreenState extends BaseScaffoldManagerState<AuthScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   late final AuthCubit _authCubit;
   late final AuthUiCubit _authUiCubit;
@@ -71,15 +75,15 @@ class _AuthScreenState extends BaseScaffoldManagerState<AuthScreen> {
   }
 
   @override
-  Widget buildBody(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
+  Widget buildBody(BuildContext context) => MultiBlocProvider(
+    providers: [
         BlocProvider<AuthCubit>(create: (_) => _authCubit),
         BlocProvider<AuthUiCubit>(create: (_) => _authUiCubit),
       ],
       child: BlocBuilder<AuthUiCubit, BaseState>(
         builder: (context, state) {
-          final uiState = state is SuccessState<AuthUiState> && state.data != null
+          final uiState =
+              state is SuccessState<AuthUiState> && state.data != null
               ? state.data!
               : const AuthUiState();
           return Center(
@@ -116,6 +120,4 @@ class _AuthScreenState extends BaseScaffoldManagerState<AuthScreen> {
         },
       ),
     );
-  }
-
 }

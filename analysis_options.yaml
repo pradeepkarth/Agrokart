@@ -49,7 +49,6 @@ linter:
     avoid_classes_with_only_static_members: true
     prefer_final_in_for_each: true
     prefer_const_literals_to_create_immutables: true
-    prefer_relative_imports: true
     prefer_asserts_in_initializer_lists: true
     prefer_expression_function_bodies: true
     prefer_interpolation_to_compose_strings: true

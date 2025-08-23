@@ -1,11 +1,17 @@
 import 'package:dartz/dartz.dart';
+
 import '../../../../core/error/failures.dart';
 import '../repositories/auth_repository_interface.dart';
 
+/// Use case for handling user registration logic.
 class RegisterUseCase {
-  final IAuthRepository repository;
+  /// Creates a [RegisterUseCase] with the given repository.
   RegisterUseCase(this.repository);
 
+  /// The authentication repository used for registration.
+  final IAuthRepository repository;
+
+  /// Attempts to register a user and returns either a [Failure] or success.
   Future<Either<Failure, void>> call({
     required String email,
     required String password,

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,14 +7,23 @@ import 'package:myapp/core/app/base_cubit.dart';
 import 'package:myapp/core/constants/app_strings.dart';
 
 /// BaseScaffoldManager provides hooks for app update, network connectivity, and controls common UI elements.
+/// 
+/// Extend this widget to create screens with common app-level behaviors such as connectivity monitoring,
+/// error handling, and UI scaffolding.
 abstract class BaseScaffoldManager extends StatefulWidget {
+  /// Creates a [BaseScaffoldManager].
   const BaseScaffoldManager({super.key});
 
   @override
   BaseScaffoldManagerState createState();
 }
 
-abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends State<T> {
+/// BaseScaffoldManagerState provides the implementation for [BaseScaffoldManager].
+/// 
+/// Subclasses should override methods and properties to customize connectivity handling,
+/// error state listening, and UI elements such as AppBar, FAB, and BottomNavigationBar.
+abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager>
+    extends State<T> {
   late final Connectivity _connectivity;
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
@@ -21,7 +31,9 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
   void initState() {
     super.initState();
     _connectivity = Connectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_onConnectivityChanged);
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+      _onConnectivityChanged,
+    );
     onInit();
   }
 
@@ -39,40 +51,41 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
     onConnectivityChanged(result);
     if (result == ConnectivityResult.none) {
       onNetworkDisconnected();
-      showSnackbar('No internet connection');
+      showSnackBar('No internet connection');
     }
   }
 
   /// Called when network is disconnected.
   void onNetworkDisconnected() {}
 
-  /// Show a snackbar message.
-  void showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+  /// Show a snackBar message.
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-    static void showDefaultErrorSnackbar(BuildContext context, {String? message}) {
-      // Import your app strings/constants file at the top if not already
-      // import 'package:myapp/core/constants/app_constants.dart';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message ?? AppStrings.unexpectedError),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
-    }
-
+  /// Shows a default error SnackBar with a given [message] or a fallback message.
+  ///
+  /// Displays a SnackBar in the provided [context] with the error color from the theme.
+  /// If [message] is not provided, uses [AppStrings.unexpectedError].
+  static void showDefaultErrorSnackBar(
+    BuildContext context, {
+    String? message,
+  }) {
+    // Import your app strings/constants file at the top if not already
+    // import 'package:myapp/core/constants/app_constants.dart';
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message ?? AppStrings.unexpectedError),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
+    );
+  }
 
   /// Default AppBar, can be overridden or muted by returning null.
   @protected
-  PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(AppStrings.appName),
-      centerTitle: true,
-    );
-  }
+  PreferredSizeWidget? buildAppBar(BuildContext context) => AppBar(title: Text(AppStrings.appName), centerTitle: true);
 
   /// Enable FloatingActionButton. Child can override to enable.
   @protected
@@ -84,25 +97,21 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
 
   /// Default FloatingActionButton, only shown if enabled.
   @protected
-  Widget buildFAB(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {},
-      child: const Icon(Icons.add),
-    );
-  }
+  Widget buildFAB(BuildContext context) => FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add));
 
   /// Default BottomNavigationBar, only shown if enabled.
   @protected
-  Widget buildBottomBar(BuildContext context) {
-    return BottomNavigationBar(
+  Widget buildBottomBar(BuildContext context) => BottomNavigationBar(
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
       ],
     );
-  }
 
   /// Child must provide the Cubit to listen for error states.
+  /// 
+  /// Override this getter in subclasses to provide the specific [BaseCubit] instance
+  /// that should be listened to for error handling. Return `null` if no cubit is needed.
   @protected
   BaseCubit? get baseCubit => null;
 
@@ -118,7 +127,7 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
         bloc: cubit,
         listener: (context, state) {
           if (state is ErrorState) {
-            showDefaultErrorSnackbar(context, message: state.message);
+            showDefaultErrorSnackBar(context, message: state.message);
           }
         },
         child: body,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../domain/repositories/auth_repository_interface.dart';
 
+/// Implementation of [IAuthRepository] for authentication operations.
+///
+/// Handles login and registration logic for users.
 class AuthRepository implements IAuthRepository {
   @override
   Future<void> login({

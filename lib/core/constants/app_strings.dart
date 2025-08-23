@@ -1,4 +1,6 @@
-class AppStrings {
+// ignore_for_file: public_member_api_docs
+
+mixin AppStrings {
   static const String loginTitle = 'Login';
   static const String registerTitle = 'Register';
   static const String emailLabel = 'Email';
@@ -14,5 +16,5 @@ class AppStrings {
 
   static const String unexpectedError = 'An unexpected error occurred.';
 
-  static String appName  = 'Agrokart';
+  static String appName = 'Agro kart';
 }

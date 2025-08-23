@@ -1,8 +1,18 @@
+/// Base class for all failures in the application.
+/// 
+/// Extend this class to represent specific failure types.
 abstract class Failure {
-  final String message;
+  /// Creates a [Failure] with an error [message].
   Failure(this.message);
+
+  /// The error message associated with this failure.
+  final String message;
 }
 
+/// Represents an authentication failure.
+/// 
+/// Used when an error occurs during authentication.
 class AuthFailure extends Failure {
-  AuthFailure(String message) : super(message);
+  /// Creates an [AuthFailure] with an error [message].
+  AuthFailure(super.message);
 }

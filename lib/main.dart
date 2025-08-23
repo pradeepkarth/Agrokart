@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:myapp/features/auth/presentation/screens/auth_screen.dart';
-
 import 'package:myapp/core/app_router.dart';
 
 import 'core/utils/locator.dart';
@@ -12,18 +9,18 @@ void main() async {
   runApp(const MyApp());
 }
 
+/// The root widget of the Agrokart application.
 class MyApp extends StatelessWidget {
+  /// Creates a [MyApp] instance.
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  /// Builds the main MaterialApp for the project.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
+  Widget build(BuildContext context) => MaterialApp.router(
+    title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: appRouter,
     );
-  }
 }
