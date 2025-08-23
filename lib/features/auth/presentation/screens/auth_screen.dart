@@ -1,54 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/features/auth/presentation/screens/login_form.dart';
-import 'package:myapp/features/auth/presentation/screens/registration_form.dart';
+import 'package:myapp/core/app/base_cubit.dart';
+import 'package:myapp/core/app/base_scaffold_manager.dart';
+import 'package:myapp/features/auth/presentation/widgets/login_form.dart';
+import 'package:myapp/features/auth/presentation/widgets/registration_form.dart';
 import 'package:myapp/features/auth/presentation/widgets/role_selection_chips.dart';
 import 'package:myapp/core/constants/app_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/core/utils/locator.dart';
 import 'package:myapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:myapp/features/auth/presentation/bloc/auth_ui_cubit.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+class AuthScreen extends BaseScaffoldManager {
+  const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  BaseScaffoldManagerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends BaseScaffoldManagerState<AuthScreen> {
+  @override
+  BaseCubit get baseCubit => _authCubit;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
   late final AuthCubit _authCubit;
-
-  bool _isLogin = true;
-  String _selectedRole = AppStrings.defaultRole;
+  late final AuthUiCubit _authUiCubit;
 
   @override
   void initState() {
     super.initState();
-  _authCubit = getIt<AuthCubit>();
+    _authCubit = getIt<AuthCubit>();
+    _authUiCubit = AuthUiCubit();
   }
 
   void _toggleForm() {
-    setState(() {
-      _isLogin = !_isLogin;
-    });
+    _authUiCubit.toggleForm();
   }
 
   void _selectRole(String role) {
-    setState(() {
-      _selectedRole = role;
-    });
+    _authUiCubit.selectRole(role);
   }
 
-  void _authenticate() {
-    if (_isLogin) {
+  void _authenticate(AuthUiState uiState) {
+    if (uiState.isLogin) {
       _authCubit.login(
         email: _emailController.text,
         password: _passwordController.text,
-        role: _selectedRole,
+        role: uiState.selectedRole,
       );
     } else {
       _authCubit.register(
@@ -56,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
         password: _passwordController.text,
         confirmPassword: _confirmPasswordController.text,
         phone: _phoneController.text,
-        role: _selectedRole,
+        role: uiState.selectedRole,
       );
     }
   }
@@ -71,37 +71,28 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<AuthCubit>(
-      create: (_) => _authCubit,
-      child: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is AuthLoading) {
-            // Show loading indicator or snackbar
-          } else if (state is AuthSuccess) {
-            // Navigate or show success
-          } else if (state is AuthFailure) {
-            // Show error message
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(_isLogin ? AppStrings.loginTitle : AppStrings.registerTitle),
-          ),
-          body: Center(
+  Widget buildBody(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(create: (_) => _authCubit),
+        BlocProvider<AuthUiCubit>(create: (_) => _authUiCubit),
+      ],
+      child: BlocBuilder<AuthUiCubit, BaseState>(
+        builder: (context, state) {
+          final uiState = state is SuccessState<AuthUiState> && state.data != null
+              ? state.data!
+              : const AuthUiState();
+          return Center(
             child: Padding(
               padding: const EdgeInsets.all(AppDimensions.largeSpacing),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (_isLogin)
+                  if (uiState.isLogin)
                     LoginForm(
                       emailController: _emailController,
                       passwordController: _passwordController,
-                      onLogin: _authenticate,
+                      onLogin: () => _authenticate(uiState),
                       onToggleToRegister: _toggleForm,
                     )
                   else
@@ -110,20 +101,21 @@ class _AuthScreenState extends State<AuthScreen> {
                       passwordController: _passwordController,
                       confirmPasswordController: _confirmPasswordController,
                       phoneController: _phoneController,
-                      onRegister: _authenticate,
+                      onRegister: () => _authenticate(uiState),
                       onToggleToLogin: _toggleForm,
                     ),
                   const SizedBox(height: AppDimensions.normal3XSpacing),
                   RoleSelectionChips(
-                    selectedRole: _selectedRole,
+                    selectedRole: uiState.selectedRole,
                     onRoleSelected: _selectRole,
                   ),
                 ],
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
+
 }

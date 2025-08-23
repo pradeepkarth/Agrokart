@@ -11,4 +11,6 @@ class AppStrings {
   static const String farmerRole = 'Farmer';
   static const String buyerRole = 'Buyer';
   static const String defaultRole = farmerRole;
+
+  static const String unexpectedError = 'An unexpected error occurred.';
 }
