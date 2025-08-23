@@ -71,10 +71,10 @@ lib/
 
 ## TODOs for Scaling & Maintainability
 
-- [ ] Create a base class for handling app update, network disconnection and connectivity changes
-- [ ] Implement a global error handler for uncaught exceptions and API errors
-- [ ] Introduce base Cubit/Bloc classes for common state management patterns
-- [ ] Add feature-level dependency injection modules for better modularity
+- [X] Create a base class for handling app update, network disconnection and connectivity changes
+- [X] Implement a global error handler for uncaught exceptions and API errors
+- [X] Introduce base Cubit/Bloc classes for common state management patterns
+- [X] Add feature-level dependency injection modules for better modularity
 - [ ] Use sealed classes for domain models and error types
 - [ ] Add automated tests for use cases, Cubits, and repositories
 - [ ] Implement logging and analytics for user actions and errors

@@ -59,7 +59,7 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message ?? AppStrings.unexpectedError),
-          backgroundColor: Colors.red,
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     }
@@ -69,9 +69,8 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
   @protected
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Agrokart'),
+      title: Text(AppStrings.appName),
       centerTitle: true,
-      backgroundColor: Colors.green,
     );
   }
 
@@ -88,7 +87,6 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {},
-      backgroundColor: Colors.green,
       child: const Icon(Icons.add),
     );
   }
@@ -98,11 +96,9 @@ abstract class BaseScaffoldManagerState<T extends BaseScaffoldManager> extends S
   Widget buildBottomBar(BuildContext context) {
     return BottomNavigationBar(
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
       ],
-      selectedItemColor: Colors.green,
-      unselectedItemColor: Colors.grey,
     );
   }
 
